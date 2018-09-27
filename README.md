@@ -7,3 +7,7 @@ sudo apt-get install python3-pip
 
 # 检查 pip 是否安装成功
 pip -V
+
+sudo mkdir /mnt/share
+sudo mount -t drvfs '\\192.168.199.1\vr' /mnt/share
+sudo umount /mnt/share
