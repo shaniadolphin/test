@@ -12,12 +12,13 @@ https://blog.csdn.net/leaves_joe/article/details/67656340
 
 sudo cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-3.4.1/modules \
+    -D OPENCV_EXTRA_MODULES_PATH=/home/dolphin/Download/opencv_contrib-3.4.1/modules \
     -D INSTALL_PYTHON_EXAMPLES=OFF \
     -D INSTALL_C_EXAMPLES=OFF \
-    -D BUILD_EXAMPLES=OFF ..
+    -D BUILD_EXAMPLES=OFF \
+    -D WITH_LIBV4L=ON ..
 
-
+sudo apt-get install synaptic
 
 ubuntu 安装pip
 # 安装Pip
