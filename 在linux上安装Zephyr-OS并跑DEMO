@@ -1,0 +1,65 @@
+1）下载、克隆到本地
+将zephyr克隆到本地home目录下：
+cd ~
+git clone git@github.com:zephyrproject-rtos/zephyr.git
+2) Zephyr Build系统简介
+Zephyr工程使用CMake作为管理工程开发的工具。CMake能够生成不同格式的build文件，当前Zephyr支持下面两种构建管理工具：
+make: UNIX-Like平台
+ninja: 全平台支持
+Zephyr工程的大多数DEMO采用ninja作为build工具，但是make也是能做所有类似工作的。
+3) 设置开发环境
+Zephyr可以在Windows\MAC\Linux上开发，这里仅介绍在linux上的设置：
+update下：
+  sudo apt-get update
+  sudo apt-get upgrade
+安装依赖：
+  sudo apt-get install --no-install-recommends git cmake ninja-build gperf \
+    ccache doxygen dfu-util device-tree-compiler \
+    python3-ply python3-pip python3-setuptools python3-wheel xz-utils file \
+    make gcc-multilib autoconf automake libtool librsvg2-bin \
+    texlive-latex-base texlive-latex-extra latexmk texlive-fonts-recommended
+    
+安装开发Zephyr所需要的附加包：
+  cd ~/zephyr  # or to your directory where zephyr is cloned
+  pip3 install --user -r scripts/requirements.txt
+  
+安装3.8.2版本及以上的CMake：
+  mkdir $HOME/cmake && cd $HOME/cmake
+  wget https://cmake.org/files/v3.8/cmake-3.8.2-Linux-x86_64.sh
+  yes | sh cmake-3.8.2-Linux-x86_64.sh | cat
+  echo "export PATH=$PWD/cmake-3.8.2-Linux-x86_64/bin:\$PATH" >> $HOME/.zephyrrc
+  source <zephyr git clone location>/zephyr-env.sh
+  cmake --version
+安装Zephyr Software Development Kit（SDK）：
+Zephyr的SDK包含所有必须的工具和交叉编译器，用于支持build内核在不同的系统架构上。除此之外，它包括主机工具，如自定义QEMU二进制文件和主机编译器，如果需要的话，可以构建宿主工具。
+SDK支持以下架构：
+X86
+X86 IAMCU ABI
+ARM
+ARC
+Nios II
+Xtensa
+RISC-V
+按照以下步骤在Linux主机系统上安装SDK：
+  cd ~/Downloads/
+  wget https://github.com/zephyrproject-rtos/meta-zephyr-sdk/releases/download/0.9.3/zephyr-sdk-0.9.3-setup.run
+  sh zephyr-sdk-0.9.3-setup.run
+注：按照屏幕上的安装说明，工具链默认安装在/opt/zephyr-sdk/，但是建议在主目录下安装，这里我安装在~/zephyr-sdk
+设置全局变量vim ~/.zephyrrc：
+  export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
+  export ZEPHYR_SDK_INSTALL_DIR=/home/btfz/zephyr-sdk
+5) 在nRF51822-QFAA-PCA10028开发板上运行DEMOM(#2)
+这里首先测试的是Hello World：
+第0步：设置编译环境：
+cd zephyr
+source zephyr-env.sh
+第二步：编译和烧写：
+cd $ZEPHYR_BASE/samples/hello_world
+mkdir build && cd build
+
+# Use cmake to configure a Ninja-based build system:
+cmake -GNinja -DBOARD=nrf51_pca10028 ..
+
+# Now run ninja on the generated build system:
+ninja
+ninja flash
