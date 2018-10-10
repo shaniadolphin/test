@@ -100,7 +100,7 @@ Device Drivers > Network device support > Wireless LAN > Rockchip Wireless LAN s
 Device Drivers > Network device support > Wireless LAN > Realtek rtlwifi family of devices 
 > Realtek rtlwifi family of devices 下的选项都去掉
 ```
-配置好后即可编译整个**kernel**(脚本文件内部设置了使用**-j4**来编译):
+配置好后即可编译整个**kernel**(脚本文件内部设置了使用**-j4** 来编译):
 ```Bash
 ./build/mk-kernel.sh roc-rk3328-cc
 ```
@@ -125,7 +125,7 @@ sudo apt-get install qemu qemu-user-static binfmt-support debootstrap
 wget -c http://cdimage.ubuntu.com/ubuntu-base/releases/16.04.1/release/ubuntu-base-16.04.1-base-arm64.tar.gz
 ```
 #### **3. 创建根文件映像**
-创建一个大小为**20G**的根文件系统映像文件，将**ubuntu core**解压到该映像中，如果不需要安装过多的软件，可以先设置成**2G**，后期再调整。
+创建一个大小为**20G**的根文件系统映像文件，将**ubuntu core** 解压到该映像中，如果不需要安装过多的软件，可以先设置成**2G**，后期再调整。
 ```Bash
 cd /mnt/h/proj
 dd if=/dev/zero of=rootfs.img bs=1M count=0 seek=20000
@@ -135,7 +135,7 @@ sudo mount rootfs.img /mnt/temp
 sudo tar -xzvf ubuntu-base-16.04.1-base-arm64.tar.gz -C mnt/
 ```
 #### **4. 复制qemu**
-将**qemu-aarch64-static**放到挂载的**rootfs**的**/usr/bin**中，能在**x86_64** 主机系统下**chroot**到该**arm64**文件系统中运行
+将**qemu-aarch64-static** 放到挂载的**rootfs** 的**/usr/bin** 中，能在**x86_64** 主机系统下**chroot** 到该**arm64** 文件系统中运行
 ```Bash
 sudo cp -a /usr/bin/qemu-aarch64-static mnt/usr/bin/
 ```
@@ -145,11 +145,11 @@ sudo cp -a /usr/bin/qemu-aarch64-static mnt/usr/bin/
 sudo cp -b /etc/resolv.conf mnt/etc/resolv.conf
 ```
 #### **5. 增加有效的更新源**
-用**vim**编辑器打开**sources.list**
+用**vim** 编辑器打开**sources.list**
 ```Bash
 vim mnt/etc/apt/sources.list
 ```
-将以下内容复制到**sources.list**中：
+将以下内容复制到**sources.list** 中：
 ```Bash
 # See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
 # newer versions of the distribution.
@@ -191,11 +191,11 @@ deb http://ports.ubuntu.com/ubuntu-ports/ xenial-proposed main restricted
 deb-src http://ports.ubuntu.com/ubuntu-ports/ xenial-proposed main restricted
 ```
 #### **7. chroot 到新的文件系统中**
-**chroot**命令用来在指定的根目录下运行指令，在使用**chroot** 之后，系统的目录结构将以指定的位置作为**/**位置。
+**chroot**命令用来在指定的根目录下运行指令，在使用**chroot** 之后，系统的目录结构将以指定的位置作为**/** 位置。
 ```Bash
 sudo chroot mnt/
 ```
-在**rootfs**的**root**用户下设置：
+在**rootfs** 的**root** 用户下设置：
 ```Bash
 # 这里可以修改设置
 USER=dolphin
@@ -233,11 +233,11 @@ sudo sync
 # <enter user password>
 sudo umount rootfs/
 ```
-如果想要在创建的根文件系统中安装软件，也可以继续**chroot**到该文件系统中，安装一些常用的软件，比如**pip**,**numpy**等，包括编译安装**opencv**等，避免复杂的交叉编译环境设置。
+如果想要在创建的根文件系统中安装软件，也可以继续**chroot** 到该文件系统中，安装一些常用的软件，比如**pip**， **numpy** 等，包括编译安装**opencv**等，避免复杂的交叉编译环境设置。
 ### **打包固件**
 #### **1. 准备并检查映像**
-把**Linux**根文件系统映像文件**rootfs**放在**out/**下
-这时**out**目录应包含以下文件:
+把**Linux** 根文件系统映像文件 **rootfs** 放在 **out/** 下
+这时**out** 目录应包含以下文件:
 ```Bash
 $ tree out
 ```
@@ -259,7 +259,7 @@ $ tree out
 ```
 该脚本将根据《存储映射》所描述的布局，将分区映像文件写到指定位置，并最终打包成**out/system.img**。 
 ### **烧录固件**
-插入**SD**卡，如果**SD**被自动挂载，则先将其卸载。
+插入**SD** 卡，如果**SD** 被自动挂载，则先将其卸载。
 安装**pv**：
 ```Bash
 sudo apt-get install pv
@@ -268,11 +268,11 @@ sudo apt-get install pv
 ```Bash
 dmesg | tail
 ```
-如果设备文件为**/dev/sdb**，使用**dd**命令进行烧录：
+如果设备文件为**/dev/sdb** ，使用**dd** 命令进行烧录：
 ```Bash
 pv -tpreb /path/to/your/raw/firmware | sudo dd of=/dev/sdb conv=notrunc
 ```
-如果需要将分区镜像写入到**SD**卡，可以运行以下命令：
+如果需要将分区镜像写入到**SD** 卡，可以运行以下命令：
 ```Bash
 sudo dd if=./out/u-boot/idbloader.img of=/dev/sdb seek=64 conv=sync,fsync 
 sudo dd if=./out/u-boot/uboot.img of=/dev/sdb seek=16384 conv=sync,fsync 
@@ -280,7 +280,7 @@ sudo dd if=./out/u-boot/trust.img of=/dev/sdb seek=24576 conv=sync,fsync
 sudo dd if=./out/boot.img of=/dev/sdb seek=32768 conv=sync,fsync 
 sudo dd if=./out/rootfs.img of=/dev/sdb seek=262144 conv=sync,fsync
 ```
-也可以运行下面指令，将生成的统一固件**system.img**写入到**SD**卡中：
+也可以运行下面指令，将生成的统一固件**system.img** 写入到**SD** 卡中：
 ```Bash
 build/flash_tool.sh -c rk3328 -d /dev/sdb -p system -i out/system.img
 ```
