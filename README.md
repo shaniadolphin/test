@@ -1,6 +1,8 @@
 基于树莓派3B+Python3.5的OpenCV3.4的配置教程
 https://www.cnblogs.com/Pyrokine/p/8921285.html
 
+![pi](http://latex.codecogs.com/png.latex?\frac{1}{\pi}=\frac{2\sqrt{2}}{9801}\sum_{k=0}^\infty\frac{(4k)!(1103%2B26390k)}{(k!)^4396^{4k}})
+
 
 https://blog.csdn.net/leaves_joe/article/details/67656340
 /** CMAKE_BUILD_TYPE是编译方式
