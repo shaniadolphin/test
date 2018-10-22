@@ -1,3 +1,7 @@
+sudo mksquashfs squar squashRootfs_ubuntu.img
+
+
+
 基于树莓派3B+Python3.5的OpenCV3.4的配置教程
 https://www.cnblogs.com/Pyrokine/p/8921285.html
 
